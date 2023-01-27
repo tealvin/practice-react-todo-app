@@ -16,6 +16,7 @@ class TodoInput extends Component {
 
   render() {
     const { inputValue = "" } = this.state;
+    const isInputEmpty = inputValue.length === 0;
 
     return (
       <div>
@@ -24,7 +25,9 @@ class TodoInput extends Component {
           value={inputValue}
           onChange={this.handleInputChange}
         />
-        <button onClick={this.handleAddTodo}>Add</button>
+        <button onClick={this.handleAddTodo} disabled={isInputEmpty}>
+          Add
+        </button>
       </div>
     );
   }
