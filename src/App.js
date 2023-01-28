@@ -49,6 +49,18 @@ class App extends Component {
     });
   };
 
+  deleteTodo = (targetId = "") => {
+    if (!targetId) return;
+
+    const { todos = [] } = this.state;
+
+    const filteredTodos = todos.filter(({ id = "" }) => id !== targetId);
+
+    this.setState({
+      todos: filteredTodos,
+    });
+  };
+
   render() {
     const { todos = [] } = this.state;
 
@@ -56,7 +68,7 @@ class App extends Component {
       <div>
         <h1>Todo App</h1>
         <TodoInput addTodo={this.addTodo} />
-        <TodoList todos={todos} />
+        <TodoList todos={todos} deleteTodo={this.deleteTodo} />
       </div>
     );
   }
