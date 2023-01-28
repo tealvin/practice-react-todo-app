@@ -5,6 +5,7 @@ import TodoList from "./components/TodoList";
 class App extends Component {
   state = {
     todos: [],
+    todoIdCount: 0,
   };
 
   componentDidMount() {
@@ -22,10 +23,31 @@ class App extends Component {
         todo: "buy flight tickets",
       },
     ];
+    const dataTodoIdCount = 3;
+
     this.setState({
       todos: dataTodos,
+      todoIdCount: dataTodoIdCount,
     });
   }
+
+  addTodo = (inputValue = "") => {
+    if (!inputValue) return;
+
+    const { todos = [], todoIdCount = 0 } = this.state;
+    const newTodoIdCount = todoIdCount + 1;
+
+    this.setState({
+      todos: [
+        ...todos,
+        {
+          id: `${newTodoIdCount}`,
+          todo: inputValue,
+        },
+      ],
+      todoIdCount: newTodoIdCount,
+    });
+  };
 
   render() {
     const { todos = [] } = this.state;
@@ -33,7 +55,7 @@ class App extends Component {
     return (
       <div>
         <h1>Todo App</h1>
-        <TodoInput />
+        <TodoInput addTodo={this.addTodo} />
         <TodoList todos={todos} />
       </div>
     );
