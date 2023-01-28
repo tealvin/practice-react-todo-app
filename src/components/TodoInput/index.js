@@ -1,36 +1,27 @@
-import { Component } from "react";
-class TodoInput extends Component {
-  state = { inputValue: "" };
+import { useState } from "react";
+const TodoInput = ({ addTodo = () => {} } = {}) => {
+  const [inputValue, setInputValue] = useState("");
 
-  handleInputChange = (e = {}) => {
+  const handleInputChange = (e = {}) => {
     const { target: { value: userInput = "" } = {} } = e;
-    this.setState({ inputValue: userInput });
+    setInputValue(userInput);
   };
 
-  handleAddTodo = () => {
-    const { inputValue = "" } = this.state;
-    const { addTodo = () => {} } = this.props;
+  const handleAddTodo = () => {
     addTodo(inputValue);
-    this.setState({ inputValue: "" });
+    setInputValue("");
   };
 
-  render() {
-    const { inputValue = "" } = this.state;
-    const isInputEmpty = inputValue.length === 0;
+  const isInputEmpty = inputValue.length === 0;
 
-    return (
-      <div>
-        <input
-          type="text"
-          value={inputValue}
-          onChange={this.handleInputChange}
-        />
-        <button onClick={this.handleAddTodo} disabled={isInputEmpty}>
-          Add
-        </button>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <input type="text" value={inputValue} onChange={handleInputChange} />
+      <button onClick={handleAddTodo} disabled={isInputEmpty}>
+        Add
+      </button>
+    </div>
+  );
+};
 
 export default TodoInput;
