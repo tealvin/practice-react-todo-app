@@ -1,14 +1,14 @@
-import { Component } from "react";
+import { useEffect, useState } from "react";
 import TodoInput from "./components/TodoInput";
 import TodoList from "./components/TodoList";
 
-class App extends Component {
-  state = {
-    todos: [],
-    todoIdCount: 0,
-  };
+const App = () => {
+  const [todos, setTodos] = useState([]);
+  const [todoIdCount, setTodoIdCount] = useState(0);
 
-  componentDidMount() {
+  useEffect(() => {
+    // mock fetching data
+
     const dataTodos = [
       {
         id: "1",
@@ -25,53 +25,38 @@ class App extends Component {
     ];
     const dataTodoIdCount = 3;
 
-    this.setState({
-      todos: dataTodos,
-      todoIdCount: dataTodoIdCount,
-    });
-  }
+    setTodos(dataTodos);
+    setTodoIdCount(dataTodoIdCount);
+  }, []);
 
-  addTodo = (inputValue = "") => {
+  const addTodo = (inputValue = "") => {
     if (!inputValue) return;
 
-    const { todos = [], todoIdCount = 0 } = this.state;
     const newTodoIdCount = todoIdCount + 1;
-
-    this.setState({
-      todos: [
-        ...todos,
-        {
-          id: `${newTodoIdCount}`,
-          todo: inputValue,
-        },
-      ],
-      todoIdCount: newTodoIdCount,
-    });
+    setTodos([
+      ...todos,
+      {
+        id: `${newTodoIdCount}`,
+        todo: inputValue,
+      },
+    ]);
+    setTodoIdCount(newTodoIdCount);
   };
 
-  deleteTodo = (targetId = "") => {
+  const deleteTodo = (targetId = "") => {
     if (!targetId) return;
 
-    const { todos = [] } = this.state;
-
     const filteredTodos = todos.filter(({ id = "" }) => id !== targetId);
-
-    this.setState({
-      todos: filteredTodos,
-    });
+    setTodos(filteredTodos);
   };
 
-  render() {
-    const { todos = [] } = this.state;
-
-    return (
-      <div>
-        <h1>Todo App</h1>
-        <TodoInput addTodo={this.addTodo} />
-        <TodoList todos={todos} deleteTodo={this.deleteTodo} />
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <h1>Todo App</h1>
+      <TodoInput addTodo={addTodo} />
+      <TodoList todos={todos} deleteTodo={deleteTodo} />
+    </div>
+  );
+};
 
 export default App;
